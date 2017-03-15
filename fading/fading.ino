@@ -1,65 +1,66 @@
 /*
-Blink
-Turns on an LED on for one second, then off for one second, repeatedly.
+Fading
+Fade between two LED's, with speed controlled via a potentiometer
 */
 
-int DELAY_TIME = 1;
-int RED_PIN = 9;
-int GREEN_PIN = 6;
-int i = 0;
-int i_step = 0;
-// the setup function runs once when you press reset or power the board 
-void setup()
+// Max and Min Step size constants
+const int MAX_STEP = 80;
+const int MIN_STEP = 1;
+
+// Delay Time and Pin Number constants
+const int DELAY_TIME = 1;
+const int RED_PIN = 9;
+const int GREEN_PIN = 6;
+const int ANALOG_PIN = 0;
+
+// Control Variables
+int i = MIN_STEP;
+int i_step = MIN_STEP;
+bool fadeDirection = true;
+
+void
+setup()
 {
-  // initialize digital pins as output.
+  // Initialise output pins
   pinMode(RED_PIN, OUTPUT);
   pinMode(GREEN_PIN, OUTPUT);
+
+  // Serial start for convenience
 //  Serial.begin(9600);      // open the serial port at 9600 bps:   
 //  Serial.println("STARTED");
 }
 
-// the loop function runs over and over again forever
-void loop()
+void
+loop()
 {
-//  Serial.println("LOOP");
-  while (i < 245){
-    i_step = get_i_step();
-    
-    analogWrite(RED_PIN, i);
-    analogWrite(GREEN_PIN, 255-i);
-    
-    delay(DELAY_TIME);
-    
-//    Serial.println("old i: ");
-//    Serial.println(i);
-    i += i_step;
-    i = constrain(i, 1, 255);
-//    Serial.println("new i:");
-//    Serial.println(i);
-    
+  // Set LED Output
+  analogWrite(RED_PIN, i);
+  analogWrite(GREEN_PIN, 255-i);
+
+  delay(DELAY_TIME);
+
+  i_step = get_i_step();
+
+  // Step i up or down depending on the fade direction
+  if (fadeDirection) {
+    i = constrain(i + i_step, 1, 255);
+  } else {
+    i = constrain(i - i_step, 1, 255);
   }
-  while (i > 10){
-    
-    i_step = get_i_step();
-    
-    analogWrite(RED_PIN, i);
-    analogWrite(GREEN_PIN, 255-i);
-    
-    delay(DELAY_TIME);
-    
-//    Serial.println("old i:");
-//    Serial.println(i);
-    i -= i_step;
-    i = constrain(i, 1, 255);
-//    Serial.println("new i:");
-//    Serial.println(i);
+
+  // Change the fade direction if i is approaching the limits (0-254)
+  if (i > 245 || i < 10){
+    fadeDirection = !fadeDirection;
   }
+
 }
 
-int get_i_step(){
-  int sensorValue = analogRead(A0);
-  int i_step = constrain(sensorValue / 64, 1, 80);
-//  Serial.println(i_step);
-  return i_step;
+/** Get the current desired value of i_step.
+ *  Reads the potentiometer value and returns the step amount mapped to between 
+ *  MIN_STEP and MAX_STEP as an int.
+ */
+int
+get_i_step(){
+  int step = map(analogRead(ANALOG_PIN), 0, 1023, MIN_STEP, MAX_STEP)
+  return step;
 }
-
