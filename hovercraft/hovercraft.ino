@@ -20,8 +20,8 @@ int rudderPos = 90;
 #define MAX_RUDDER_POS 140
 
 // Potentiometers (Analog Pins)
-#define THRUST_KNOB A0
-#define LIFT_KNOB A1
+#define THRUST_KNOB A1
+#define LIFT_KNOB A0
 #define RUDDER_KNOB A2
 
 uint8_t thrustMessage[] = {'T', 0, 0};
