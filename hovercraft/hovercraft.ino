@@ -45,7 +45,11 @@ void setup()
 void loop()
 {
     liftSpeed = map(analogRead(LIFT_KNOB), 0, 1023, MIN_ESC_SPEED, MAX_ESC_SPEED);
-    thrustSpeed = map(analogRead(THRUST_KNOB), 0, 1023, MIN_ESC_SPEED, MAX_ESC_SPEED);
+    // constrain 532-0 so that only the forward push on the joystick is counted
+    // map 532-0 to MIN-MAX to invert (so forward push becomes power UP)
+    // The joystick does have some deadzone
+    thrustSpeed = map(constrain(analogRead(THRUST_KNOB), 0, 532),
+                      532, 0, MIN_ESC_SPEED, MAX_ESC_SPEED);
     rudderPos = map(analogRead(RUDDER_KNOB), 0, 1023, MIN_RUDDER_POS, MAX_RUDDER_POS);
 
     if (digitalRead(BUTTON_FORCE_LOW_PIN) == LOW)
