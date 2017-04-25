@@ -42,7 +42,7 @@ setup()
     ThrustESC.attach(THRUST_ESC_PWM_PIN);
     LiftESC.attach(LIFT_ESC_PWM_PIN);
     RudderServo.attach(RUDDER_SERVO_PWM_PIN);
-    pinMode(BUTTON_PIN, INPUT_PULLUP);
+    pinMode(BUTTON_FORCE_LOW_PIN, INPUT_PULLUP);
 
     Serial.println("Setup Complete");
 }
