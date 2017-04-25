@@ -1,14 +1,3 @@
-#include <Servo.h>
-
-// Attached Servos
-Servo ThrustESC;
-Servo LiftESC;
-Servo RudderServo;
-
-// Servo PWN Pins
-const int THRUST_ESC_PWM_PIN = 9;
-const int LIFT_ESC_PWM_PIN = 10;
-const int RUDDER_SERVO_PWM_PIN = 3;
 
 // Button
 int BUTTON_FORCE_LOW_PIN = 2;
@@ -32,23 +21,14 @@ int rudderPos = 90;
 #define LIFT_KNOB A1
 #define RUDDER_KNOB A2
 
-#define RF_TRANSMIT_PIN 4
-#define LED_PIN 13
-
 
 void
 setup()
 {
     Serial.begin(9600);
     Serial.println("Setup");
-
-    ThrustESC.attach(THRUST_ESC_PWM_PIN);
-    LiftESC.attach(LIFT_ESC_PWM_PIN);
-    RudderServo.attach(RUDDER_SERVO_PWM_PIN);
     pinMode(BUTTON_FORCE_LOW_PIN, INPUT_PULLUP);
 
-    pinMode(RF_TRANSMIT_PIN, OUTPUT);
-    pinMode(LED_PIN, OUTPUT);
 
     Serial.println("Setup Complete");
 }
@@ -74,17 +54,6 @@ loop()
     Serial.print(rudderPos);
     Serial.println(" RD");
 
-    ThrustESC.writeMicroseconds(thrustSpeed);
-    LiftESC.writeMicroseconds(liftSpeed);
-    RudderServo.write(rudderPos);
 
-    digitalWrite(RF_TRANSMIT_PIN, HIGH);
-    digitalWrite(LED_PIN, HIGH);
-    Serial.println("HIGH");
-    delay(3000);
 
-    digitalWrite(RF_TRANSMIT_PIN, LOW);
-    digitalWrite(LED_PIN, LOW);
-    Serial.println("LOW");
-    delay(3000);
 }
