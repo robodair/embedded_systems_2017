@@ -39,7 +39,7 @@ int rudderPos = 90;
 void
 setup()
 {
-    Serial.begin(19200);
+    Serial.begin(9600);
     Serial.println("Setup");
 
     ThrustESC.attach(THRUST_ESC_PWM_PIN);
