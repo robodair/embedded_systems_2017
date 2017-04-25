@@ -24,9 +24,7 @@ int rudderPos = 90;
 #define LIFT_KNOB A0
 #define RUDDER_KNOB A2
 
-uint8_t thrustMessage[] = {'T', 0, 0};
-uint8_t liftMessage[] = {'L', 0, 0};
-uint8_t rudderMessage[] = {'R', 0, 0};
+uint8_t message[] = {0, 0, 0, 0, 0, 0};
 
 void setup()
 {
@@ -67,19 +65,13 @@ void loop()
     Serial.println(" RD");
 
     // Bit shift the ints into the byte array for sending
-    thrustMessage[1] = (thrustSpeed >> 8);
-    thrustMessage[2] = thrustSpeed;
+    message[0] = (thrustSpeed >> 8);
+    message[1] = thrustSpeed;
+    message[2] = (liftSpeed >> 8);
+    message[3] = liftSpeed;
+    message[4] = (rudderPos >> 8);
+    message[5] = rudderPos;
 
-    liftMessage[1] = (liftSpeed >> 8);
-    liftMessage[2] = liftSpeed;
-
-    rudderMessage[1] = (rudderPos >> 8);
-    rudderMessage[2] = rudderPos;
-
-    driver.send(thrustMessage, 4);
-    driver.waitPacketSent();
-    driver.send(liftMessage, 4);
-    driver.waitPacketSent();
-    driver.send(rudderMessage, 4);
+    driver.send(message, 6);
     driver.waitPacketSent();
 }
