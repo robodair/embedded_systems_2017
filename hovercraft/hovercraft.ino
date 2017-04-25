@@ -61,13 +61,12 @@ loop()
         rudderPos = 90;
     }
 
-    Serial.print(liftSpeed);
-    Serial.print("    ");
     Serial.print(thrustSpeed);
-    Serial.print("    ");
-    Serial.print(buttonPressed);
-    Serial.println("    ");
-    Serial.println(rudderPos);
+    Serial.print(" TH    ");
+    Serial.print(liftSpeed);
+    Serial.print(" LI    ");
+    Serial.print(rudderPos);
+    Serial.println(" RD");
 
     ThrustESC.writeMicroseconds(thrustSpeed);
     LiftESC.writeMicroseconds(liftSpeed);
