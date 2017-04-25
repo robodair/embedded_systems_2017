@@ -19,18 +19,21 @@ int BUTTON_FORCE_LOW_PIN = 2;
 // to run through their startup sequence
 int thrustSpeed = 10;
 int liftSpeed = 10;
-const int MIN_ESC_SPEED = 1000;
-const int MAX_ESC_SPEED = 2000;
+#define MIN_ESC_SPEED 1000
+#define MAX_ESC_SPEED 2000
 
 // Rudder pos (Degrees)
 int rudderPos = 90;
-const int MIN_RUDDER_POS = 70;
-const int MAX_RUDDER_POS = 140;
+#define MIN_RUDDER_POS 70
+#define MAX_RUDDER_POS 140
 
 // Potentiometers (Analog Pins)
-const int THRUST_KNOB = A0;
-const int LIFT_KNOB = A1;
-const int RUDDER_KNOB = A2;
+#define THRUST_KNOB A0
+#define LIFT_KNOB A1
+#define RUDDER_KNOB A2
+
+#define RF_TRANSMIT_PIN 4
+#define LED_PIN 13
 
 
 void
