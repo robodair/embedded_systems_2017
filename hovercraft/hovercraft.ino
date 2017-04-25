@@ -47,6 +47,9 @@ setup()
     RudderServo.attach(RUDDER_SERVO_PWM_PIN);
     pinMode(BUTTON_FORCE_LOW_PIN, INPUT_PULLUP);
 
+    pinMode(RF_TRANSMIT_PIN, OUTPUT);
+    pinMode(LED_PIN, OUTPUT);
+
     Serial.println("Setup Complete");
 }
 
@@ -74,4 +77,14 @@ loop()
     ThrustESC.writeMicroseconds(thrustSpeed);
     LiftESC.writeMicroseconds(liftSpeed);
     RudderServo.write(rudderPos);
+
+    digitalWrite(RF_TRANSMIT_PIN, HIGH);
+    digitalWrite(LED_PIN, HIGH);
+    Serial.println("HIGH");
+    delay(3000);
+
+    digitalWrite(RF_TRANSMIT_PIN, LOW);
+    digitalWrite(LED_PIN, LOW);
+    Serial.println("LOW");
+    delay(3000);
 }
