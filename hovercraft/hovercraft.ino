@@ -1,5 +1,5 @@
 #include <RH_ASK.h> // RadioHead Library
-#include <SPI.h> // Not actually used but needed to compile
+#include <SPI.h>    // Not actually used but needed to compile
 RH_ASK driver;
 
 // Button
@@ -24,34 +24,32 @@ int rudderPos = 90;
 #define LIFT_KNOB A1
 #define RUDDER_KNOB A2
 
-uint8_t thrustMessage[] = {'T',0, 0};
+uint8_t thrustMessage[] = {'T', 0, 0};
 uint8_t liftMessage[] = {'L', 0, 0};
 uint8_t rudderMessage[] = {'R', 0, 0};
 
-void
-setup()
+void setup()
 {
     Serial.begin(9600);
     Serial.println("Setup");
     pinMode(BUTTON_FORCE_LOW_PIN, INPUT_PULLUP);
 
     if (!driver.init())
-         Serial.println("RF init failed");
+        Serial.println("RF init failed");
     else
-         Serial.println("RF init success");
+        Serial.println("RF init success");
 
     Serial.println("Setup Complete");
 }
 
-
-void
-loop()
+void loop()
 {
     liftSpeed = map(analogRead(LIFT_KNOB), 0, 1023, MIN_ESC_SPEED, MAX_ESC_SPEED);
     thrustSpeed = map(analogRead(THRUST_KNOB), 0, 1023, MIN_ESC_SPEED, MAX_ESC_SPEED);
     rudderPos = map(analogRead(RUDDER_KNOB), 0, 1023, MIN_RUDDER_POS, MAX_RUDDER_POS);
 
-    if (digitalRead(BUTTON_FORCE_LOW_PIN) == LOW){
+    if (digitalRead(BUTTON_FORCE_LOW_PIN) == LOW)
+    {
         liftSpeed = 10;
         thrustSpeed = 10;
         rudderPos = 90;
