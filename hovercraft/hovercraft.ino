@@ -1,3 +1,6 @@
+#include <RH_ASK.h> // RadioHead Library
+#include <SPI.h> // Not actually used but needed to compile
+RH_ASK driver;
 
 // Button
 int BUTTON_FORCE_LOW_PIN = 2;
@@ -21,6 +24,9 @@ int rudderPos = 90;
 #define LIFT_KNOB A1
 #define RUDDER_KNOB A2
 
+uint8_t thrustMessage[] = {'T',0, 0};
+uint8_t liftMessage[] = {'L', 0, 0};
+uint8_t rudderMessage[] = {'R', 0, 0};
 
 void
 setup()
@@ -29,6 +35,10 @@ setup()
     Serial.println("Setup");
     pinMode(BUTTON_FORCE_LOW_PIN, INPUT_PULLUP);
 
+    if (!driver.init())
+         Serial.println("RF init failed");
+    else
+         Serial.println("RF init success");
 
     Serial.println("Setup Complete");
 }
@@ -54,6 +64,20 @@ loop()
     Serial.print(rudderPos);
     Serial.println(" RD");
 
+    // Bit shift the ints into the byte array for sending
+    thrustMessage[1] = (thrustSpeed >> 8);
+    thrustMessage[2] = thrustSpeed;
 
+    liftMessage[1] = (liftSpeed >> 8);
+    liftMessage[2] = liftSpeed;
 
+    rudderMessage[1] = (rudderPos >> 8);
+    rudderMessage[2] = rudderPos;
+
+    driver.send(thrustMessage, 4);
+    driver.waitPacketSent();
+    driver.send(liftMessage, 4);
+    driver.waitPacketSent();
+    driver.send(rudderMessage, 4);
+    driver.waitPacketSent();
 }
