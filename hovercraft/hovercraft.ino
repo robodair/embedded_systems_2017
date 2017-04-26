@@ -23,6 +23,9 @@ unsigned char rudderPos = 90;
 #define LIFT_KNOB A0
 #define RUDDER_KNOB A2
 
+#define MIN_RUDDER_POS 70
+#define MAX_RUDDER_POS 140
+
 uint8_t message[] = {0, 0, 0};
 
 void setup()
@@ -70,8 +73,8 @@ void loop()
 #endif
 
     message[0] = thrustSpeed;
-    message[2] = liftSpeed;
-    message[3] = rudderPos;
+    message[1] = liftSpeed;
+    message[2] = rudderPos;
 
     driver.send(message, 3);
     driver.waitPacketSent();
