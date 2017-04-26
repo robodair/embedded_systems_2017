@@ -1,3 +1,6 @@
+// comment next line out when you don't need to debug
+#define DEBUG 1
+
 #include <Servo.h>
 #include <RH_ASK.h>
 #include <SPI.h> // Not actually used but needed to compile
@@ -45,18 +48,22 @@ int lastSignalMillis = 0;
 
 void setup()
 {
+#ifdef DEBUG
     Serial.begin(9600);
     Serial.println("Setup");
     if (!driver.init())
         Serial.println("init failed");
     else
         Serial.println("init success");
+#endif
 
     ThrustESC.attach(THRUST_ESC_PWM_PIN);
     LiftESC.attach(LIFT_ESC_PWM_PIN);
     RudderServo.attach(RUDDER_SERVO_PWM_PIN);
 
+#ifdef DEBUG
     Serial.println("Setup Complete");
+#endif
 }
 
 void loop()
@@ -80,6 +87,7 @@ void loop()
         liftSpeed = MIN_ESC_SPEED;
     }
 
+#ifdef DEBUG
     // Print out what the received values are
     Serial.print(thrustSpeed);
     Serial.print(" TH    ");
@@ -89,6 +97,7 @@ void loop()
     Serial.print(" RD    ");
     Serial.print(millisSinceLastSignal);
     Serial.println(" millisSinceLastSignal");
+#endif
 
     // Constrain to allowed values for the motors, and write those values
     ThrustESC.writeMicroseconds(thrustSpeed);

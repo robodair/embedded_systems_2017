@@ -1,3 +1,6 @@
+// comment next line out when you don't need to debug
+#define DEBUG 1
+
 #include <RH_ASK.h> // RadioHead Library
 #include <SPI.h>    // Not actually used but needed to compile
 RH_ASK driver;
@@ -24,16 +27,21 @@ uint8_t message[] = {0, 0, 0};
 
 void setup()
 {
+#ifdef DEBUG
     Serial.begin(9600);
     Serial.println("Setup");
+#endif
+
     pinMode(BUTTON_FORCE_LOW_PIN, INPUT_PULLUP);
 
+#ifdef DEBUG
     if (!driver.init())
         Serial.println("RF init failed");
     else
         Serial.println("RF init success");
 
     Serial.println("Setup Complete");
+#endif
 }
 
 void loop()
@@ -52,12 +60,14 @@ void loop()
         rudderPos = 90;
     }
 
+#ifdef DEBUG
     Serial.print(thrustSpeed);
     Serial.print(" TH    ");
     Serial.print(liftSpeed);
     Serial.print(" LI    ");
     Serial.print(rudderPos);
     Serial.println(" RD");
+#endif
 
     message[0] = thrustSpeed;
     message[2] = liftSpeed;
