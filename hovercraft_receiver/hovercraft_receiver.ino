@@ -35,7 +35,7 @@ uint8_t buflen;
 // Speed an position with sensible defaults
 int thrustSpeed = 10;
 int liftSpeed = 10;
-int rudderPos = 90;
+unsigned char rudderPos = 90;
 
 // System will stop the motors if it doesn't get a signal for 0.5 seconds
 // (Automatic no-signal cutout)
@@ -68,9 +68,9 @@ void loop()
         lastSignalMillis = millis();
 
         // Message with a good checksum received
-        thrustSpeed = buf[0]; thrustSpeed = thrustSpeed << 8; thrustSpeed += buf[1];
-        liftSpeed = buf[2]; liftSpeed = liftSpeed << 8; liftSpeed += buf[3];
-        rudderPos = buf[4]; rudderPos = rudderPos << 8; rudderPos += buf[5];
+        thrustSpeed = map(buf[0], 0, 255, MIN_ESC_SPEED, MAX_ESC_SPEED);
+        liftSpeed = map(buf[2], 0, 255, MIN_ESC_SPEED, MAX_ESC_SPEED);
+        rudderPos = buf[3];
     }
 
     millisSinceLastSignal = millis() - lastSignalMillis;
