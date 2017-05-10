@@ -76,8 +76,8 @@ void loop()
 
         // Message with a good checksum received
         thrustSpeed = map(buf[0], 0, 255, MIN_ESC_SPEED, MAX_ESC_SPEED);
-        liftSpeed = map(buf[2], 0, 255, MIN_ESC_SPEED, MAX_ESC_SPEED);
-        rudderPos = buf[3];
+        liftSpeed = map(buf[1], 0, 255, MIN_ESC_SPEED, MAX_ESC_SPEED);
+        rudderPos = buf[2];
     }
 
     millisSinceLastSignal = millis() - lastSignalMillis;
